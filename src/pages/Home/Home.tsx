@@ -2,13 +2,18 @@ import React, { useEffect, useState } from 'react';
 import api, {API_KEY} from '../../services/api'
 import ObjectItem from '../../components/ObjectItem'
 import { Link } from 'react-router-dom'
+import Header from '../../components/Header';
+
+
 
   interface IMuseum {
     id: number
     title: string
     primaryimageurl: string
-    images: {}[]
-} 
+    century:string
+    division: string
+    department: string
+  } 
  
 interface IResponse {
   info: {
@@ -37,22 +42,26 @@ const Home:React.FC = () => {
     getMuseum()
   }, [])
   
-  const image = museums.map(img => img.images)
-  console.log(image)
   
   return (
     <div>
+        <Header />
       { museums.length > 0 ?
         (museums.map(museum =>(
          <Link to={`${museum.id}`}  key={museum.id} >
              <ObjectItem 
               title={museum.title}
               image={museum.primaryimageurl}
+              century={museum.century}
+              division={museum.division}
+              department={museum.department}
             />
          </Link> 
           ) 
         )) : 
-        <p>Carregando...</p>
+          <div>
+             <h4 className=" animate-ping flex justify-center items-center text-xl font-bold">Loading...</h4>
+          </div>
       }
     </div>
   );
